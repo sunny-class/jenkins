@@ -1,0 +1,27 @@
+pipeline {
+    agent any
+
+    tools {
+
+        maven "mvn"
+    }
+
+    stages {
+        stage('git checkout') {
+            steps {
+
+                git branch: 'main', changelog: false, poll: false, url: 'https://github.com/sunny-class/jenkins.git'
+            }
+        }
+        stage('test') {
+            steps {
+                sh 'mvn clean test'
+            }
+        }
+        stage ('build') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+    }
+}
